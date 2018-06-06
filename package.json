@@ -1,0 +1,22 @@
+{
+  "name": "lgremote-alexa-skill",
+  "version": "3.0.0",
+  "description": "Lg remote (Alexa Skill)",
+  "main": "index.js",
+  "scripts": {
+    "ud:sekhar": "serverless deploy function -f lgRemote --stage babusek"
+  },
+  "author": "Sekhar",
+  "dependencies": {
+    "alexa-sdk": "^1.0.14",
+    "aws-sdk": "^2.112.0",
+    "lgtv": "^0.2.4",
+    "ssml-builder": "^0.4.3"
+  },
+  "devDependencies": {
+    "serverless": "^1.27.2",
+    "serverless-plugin-optimize": "^3.0.3-rc.1",
+    "serverless-plugin-scripts": "^1.0.2",
+    "babel-preset-node6": "^11.0.0"
+  }
+}

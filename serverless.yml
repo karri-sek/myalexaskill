@@ -1,0 +1,57 @@
+
+service: lgremote
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: ${opt:stage, self:custom.defaultStage}
+  profile: ${self:custom.profiles.${self:provider.stage}}
+  region: ${self:custom.regions.${self:provider.stage}}
+  role: ${self:custom.roles.${self:provider.stage}}
+  memorySize: 256
+  timeout: 10
+  versionFunctions: true
+
+plugins:
+  - serverless-plugin-optimize
+  - serverless-plugin-scripts
+
+package:
+  individually: true
+
+functions:
+  lgRemote:
+    handler: lambda/index.handler
+    name: remotelambda
+    description: lgremote by (Alexa Skill)
+    events:
+      - alexaSkill
+    environment:
+      APP_ID: ${self:custom.appids.${self:provider.stage}}
+
+custom:
+  defaultStage: dev
+  profiles:
+    babusek: sekhar
+  regions:
+    babusek: us-east-1
+  roles:
+    babusek: arn:aws:iam::501147292974:role/babusek
+  appids:
+    babusek: ${file(env.yml):APP_ID_BABUSEK}
+  optimize:
+    debug: false # set to true to keep _optimize folder
+    minify: false # only saves 0.02mb in this case
+    global: false # minifying imported node modules seems to break the skill
+    presets: ['babel-preset-node6']
+
+scripts:
+    hooks: # any other custom scripts can be run at any stage of the deployment process
+      'deploy:cleanup': echo cleanup
+      'deploy:initialize': echo initialize
+      'deploy:setupProviderConfiguration': echo setupProviderConfiguration
+      'deploy:createDeploymentArtifacts': echo createDeploymentArtifacts
+      'deploy:compileFunctions': echo compileFunctions
+      'deploy:compileEvents': echo compileEvents
+      'deploy:deploy': echo deploy
+      'deploy:function:deploy': echo function:deploy
