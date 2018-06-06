@@ -1,2 +1,1 @@
-# myalexaskill
-my Alexa skill
+../browserify/bin/cmd.js
